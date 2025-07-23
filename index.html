@@ -18,7 +18,7 @@
 
   <script>
     async function fetchData() {
-      const res = await fetch('/api/videos');
+      const res = await fetch('/api/video');
       const result = await res.json();
       const container = document.getElementById("video-list");
       container.innerHTML = "";
