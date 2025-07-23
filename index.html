@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>人気動画一覧</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; background-color: #f5f5f5; }
+    .video-item { background: white; padding: 1em; border-radius: 10px; box-shadow: 0 0 8px rgba(0,0,0,0.1); margin-bottom: 1em; }
+    .video-item h2 { margin: 0; font-size: 1.2em; }
+    .video-item p { color: #666; }
+    button { padding: 0.5em 1em; margin-top: 1em; font-size: 1em; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>ニコニコ人気動画リスト</h1>
+  <button onclick="fetchData()">APIデータを取得</button>
+  <div id="video-list"></div>
+
+  <script>
+    async function fetchData() {
+      const res = await fetch('/api/videos');
+      const result = await res.json();
+      const container = document.getElementById("video-list");
+      container.innerHTML = "";
+      result.data.forEach(video => {
+        const el = document.createElement("div");
+        el.className = "video-item";
+        el.innerHTML = `
+          <h2>${video.title}</h2>
+          <p><strong>再生数:</strong> ${video.viewCounter.toLocaleString()}</p>
+          <p><a href="https://www.nicovideo.jp/watch/${video.contentId}" target="_blank">▶ 動画を見る</a></p>
+        `;
+        container.appendChild(el);
+      });
+    }
+  </script>
+</body>
+</html>
